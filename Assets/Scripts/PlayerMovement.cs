@@ -5,12 +5,12 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 6f;
     public float jumpForce = 12f;
 
-    public KeyCode leftKey;
-    public KeyCode rightKey;
-    public KeyCode jumpKey;
+    public KeyCode leftKey = KeyCode.A;
+    public KeyCode rightKey = KeyCode.D;
+    public KeyCode jumpKey = KeyCode.W;
 
     private Rigidbody2D rb;
-    private bool isGrounded;
+    private bool isGrounded = true;
 
     void Start()
     {
@@ -25,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
         {
             move = -1f;
         }
-        else if (Input.GetKey(rightKey))
+
+        if (Input.GetKey(rightKey))
         {
             move = 1f;
         }
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(jumpKey) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            isGrounded = false;
         }
     }
 
@@ -43,14 +45,6 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
         }
     }
 }

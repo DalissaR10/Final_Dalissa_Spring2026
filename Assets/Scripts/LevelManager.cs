@@ -1,18 +1,27 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    public bool player1AtExit = false;
-    public bool player2AtExit = false;
+    public Transform checkpoint;
+    public GameObject player;
+    public GameObject winText;
 
-    public string nextLevelName = "Level2";
-
-    void Update()
+    void Start()
     {
-        if (player1AtExit && player2AtExit)
-        {
-            SceneManager.LoadScene(nextLevelName);
-        }
+        winText.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void RespawnPlayer()
+    {
+        player.transform.position = checkpoint.position;
+        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    public void WinGame()
+    {
+        winText.SetActive(true);
+        Time.timeScale = 0f;
     }
 }
